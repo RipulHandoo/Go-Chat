@@ -14,7 +14,7 @@ import (
 func FollowUser(w http.ResponseWriter, req *http.Request, user database.User) {
 	toFollowIDParam := req.URL.Query().Get("id")
     if toFollowIDParam == "" {
-        utils.ResponseWithError(w, http.StatusBadRequest, fmt.Errorf("Can not get the id"))
+        utils.ResponseWithError(w, http.StatusBadRequest, fmt.Errorf("can not get the id"))
         return
     }
 
@@ -38,7 +38,7 @@ func FollowUser(w http.ResponseWriter, req *http.Request, user database.User) {
 func UnFollowUser(w http.ResponseWriter, req *http.Request, user database.User) {
 	toFollowIDParam := req.URL.Query().Get("id")
     if toFollowIDParam == "" {
-        utils.ResponseWithError(w, http.StatusBadRequest, fmt.Errorf("Can not get the id"))
+        utils.ResponseWithError(w, http.StatusBadRequest, fmt.Errorf("can not get the id"))
         return
     }
 
