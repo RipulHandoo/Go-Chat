@@ -60,5 +60,5 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		Path:    "/",
 	})
 
-	utils.ResponseWithJson(w, http.StatusAccepted, utils.MapRegisteredUser(user))
+	utils.ResponseWithJson(w, 201, utils.MapRegisteredUser(user))
 }

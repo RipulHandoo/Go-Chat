@@ -54,5 +54,5 @@ func LoginUser(w http.ResponseWriter, r *http.Request){
 		Path: "/",
 	})
 
-	utils.ResponseWithJson(w,http.StatusOK,utils.MapLoginUser(user))
+	utils.ResponseWithJson(w,200,utils.MapLoginUser(user))
 }

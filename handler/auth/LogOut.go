@@ -16,5 +16,5 @@ func LogOut(w http.ResponseWriter, r *http.Request, user database.User){
 		Path: "/",
 	})
 
-	utils.ResponseWithJson(w,http.StatusOK,user)
+	utils.ResponseWithJson(w,http.StatusAccepted,user)
 }
