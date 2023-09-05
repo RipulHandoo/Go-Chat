@@ -7,14 +7,15 @@ import (
 	"github.com/RipulHandoo/goChat/utils"
 )
 
-func LogOut(w http.ResponseWriter, r *http.Request, user database.User){
-	// clear cookies
-	
-	http.SetCookie(w,&http.Cookie{
-		Name: "auth_token",
-		Value:"",
-		Path: "/",
+// LogOut is an HTTP handler for user logout.
+func LogOut(w http.ResponseWriter, r *http.Request, user database.User) {
+	// Clear the authentication token cookie.
+	http.SetCookie(w, &http.Cookie{
+		Name:   "auth_token",
+		Value:  "",
+		Path:   "/",
 	})
 
-	utils.ResponseWithJson(w,http.StatusAccepted,user)
+	// Respond with a JSON representation of the user and an "Accepted" status code.
+	utils.ResponseWithJson(w, http.StatusAccepted, user)
 }

@@ -9,50 +9,66 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-
-func LoginUser(w http.ResponseWriter, r *http.Request){
-	type parameters struct{
-		Email    string	`json:"email"`
-		Password string		`json:"password"`
+// LoginUser is an HTTP handler for user login.
+func LoginUser(w http.ResponseWriter, r *http.Request) {
+	// Define a structure to hold request parameters.
+	type parameters struct {
+		Email    string `json:"email"`
+		Password string `json:"password"`
 	}
+
+	// Create a JSON decoder for reading the request body.
 	decoder := json.NewDecoder(r.Body)
 	params := parameters{}
 
+	// Decode the JSON request body into the 'params' structure.
 	err := decoder.Decode(&params)
-	if err != nil{
-		utils.ResponseWithError(w,http.StatusBadRequest,err)
+	if err != nil {
+		// If there is an error in decoding, respond with a bad request error.
+		utils.ResponseWithError(w, http.StatusBadRequest, err)
 		return
 	}
 
+	// Get a database API instance.
 	apiConfig := db.DbClient
-	user, err := apiConfig.GetUserByEmail(r.Context(),params.Email)
 
-	if err != nil{
-		utils.ResponseWithError(w,401,err)
-	}
+	// Retrieve user information from the database based on the provided email.
+	user, err := apiConfig.GetUserByEmail(r.Context(), params.Email)
 
-	authCheck := bcrypt.CompareHashAndPassword([]byte(user.Password),[]byte(params.Password))
-	if authCheck != nil{
-		utils.ResponseWithError(w,http.StatusUnauthorized,authCheck)
+	if err != nil {
+		// If there is an error in retrieving the user, respond with an unauthorized error.
+		utils.ResponseWithError(w, http.StatusUnauthorized, err)
 		return
 	}
 
+	// Compare the provided password with the stored hashed password.
+	authCheck := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(params.Password))
+	if authCheck != nil {
+		// If the password comparison fails, respond with an unauthorized error.
+		utils.ResponseWithError(w, http.StatusUnauthorized, authCheck)
+		return
+	}
+
+	// Generate a JWT token for the authenticated user.
 	token, expiry, err := utils.GetJwtToken(utils.Credential{
-		Email: user.Email,
+		Email:    user.Email,
 		Username: user.Username,
 	})
 
-	if err != nil{
-		utils.ResponseWithError(w,http.StatusForbidden,err)
+	if err != nil {
+		// If there is an error in token generation, respond with a forbidden error.
+		utils.ResponseWithError(w, http.StatusForbidden, err)
 		return
 	}
 
-	http.SetCookie(w,&http.Cookie{
-		Name: "auth_token",
-		Value: token,
+	// Set the JWT token as a cookie in the HTTP response.
+	http.SetCookie(w, &http.Cookie{
+		Name:    "auth_token",
+		Value:   token,
 		Expires: expiry,
-		Path: "/",
+		Path:    "/",
 	})
 
-	utils.ResponseWithJson(w,200,utils.MapLoginUser(user))
+	// Respond with a JSON representation of the authenticated user.
+	utils.ResponseWithJson(w, http.StatusOK, utils.MapLoginUser(user))
 }
