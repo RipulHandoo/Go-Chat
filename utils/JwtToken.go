@@ -18,7 +18,7 @@ type Claims struct {
 	jwt.RegisteredClaims
 }
 
-func GetJwtToken(signerClaims Credential)(tokenString string, expiry time.Time, Token_err error){
+func GetJwtToken(signerClaims Credential) (tokenString string, expiry time.Time, Token_err error) {
 	godotenv.Load(".env")
 	var jwt_Key string = os.Getenv("SECRET_KEY")
 	var expiryTime = time.Now().Add(50 * time.Minute)
@@ -30,10 +30,9 @@ func GetJwtToken(signerClaims Credential)(tokenString string, expiry time.Time, 
 		},
 	}
 
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256,claims)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	tokenString, Token_err = token.SignedString([]byte(jwt_Key))
 
-
-	return tokenString,expiryTime,Token_err;
+	return tokenString, expiryTime, Token_err
 }

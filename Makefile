@@ -1,5 +1,5 @@
 go-dot-env
-(go get github.com/joho/godotenc)
+(go get github.com/joho/godotenv)
 
 go-chi
 (go get github.com/go-chi/chi) && (go get github.com/go-chi/cors)
