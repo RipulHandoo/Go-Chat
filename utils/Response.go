@@ -6,28 +6,37 @@ import (
 	"net/http"
 )
 
-func ResponseWithJson(w http.ResponseWriter, code int, payload interface{}){
+// ResponseWithJson sends a JSON response to the client with the specified status code and payload.
+func ResponseWithJson(w http.ResponseWriter, code int, payload interface{}) {
+	// Marshal the payload into JSON format.
 	data, err := json.Marshal(payload)
-	if err != nil{
-		log.Fatal(err)
+	if err != nil {
+		log.Fatal(err) // Log any marshaling errors.
 		return
 	}
-	w.Header().Add("Context-Type","application/json")
+	
+	// Set the response header to indicate JSON content.
+	w.Header().Add("Content-Type", "application/json")
+	
+	// Write the JSON data to the response writer.
 	w.Write(data)
 }
 
-func ResponseWithError(w http.ResponseWriter, code int, err error){
-	if err != nil{
-		ResponseWithJson(w,code,struct{
+// ResponseWithError sends a JSON error response to the client with the specified status code and error message.
+func ResponseWithError(w http.ResponseWriter, code int, err error) {
+	if err != nil {
+		// If an error is provided, respond with the error message in JSON format.
+		ResponseWithJson(w, code, struct {
 			Error string `json:"error"`
 		}{
 			Error: err.Error(),
 		})
-	}else{
-		ResponseWithJson(w,code,struct{
+	} else {
+		// If no error is provided, respond with a generic internal server error message in JSON format.
+		ResponseWithJson(w, code, struct {
 			Error string `json:"error"`
 		}{
-			Error: "Internal sever error",
+			Error: "Internal server error",
 		})
 	}
 }
