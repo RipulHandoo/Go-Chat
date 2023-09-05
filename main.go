@@ -8,8 +8,9 @@ import (
 
 	handler "github.com/RipulHandoo/goChat/handler/auth" // Importing the authentication handler.
 	"github.com/RipulHandoo/goChat/middleware"
-	"github.com/RipulHandoo/goChat/ws"
+	"github.com/RipulHandoo/goChat/users"
 	"github.com/RipulHandoo/goChat/utils"
+	"github.com/RipulHandoo/goChat/ws"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/cors"
 	"github.com/joho/godotenv"
@@ -50,11 +51,9 @@ func main() {
 	v1Router.Post("/login", handler.LoginUser)
 	v1Router.Post("/logout", middleware.Auth(middleware.AuthHandler(handler.LogOut)))
 
-	// Have to add these endpoints, some time later.
-	// v1Router.Post("/delete", middleware.Auth(middleware.AuthHandler(handler.DeleteUser)))
-	// v1Router.Delete("/delete", middleware.Auth(middleware.AuthHandler(handler.DeleteUser)))
-	// v1Router.Post("/follow", middleware.Auth(middleware.AuthHandler(handler.FollowUser)))
-	// v1Router.Post("/Unfollow", middleware.Auth(middleware.AuthHandler(handler.Unfollow)))
+	v1Router.Delete("/delete", middleware.Auth(middleware.AuthHandler(users.DeleteUser)))
+	v1Router.Post("/follow", middleware.Auth(middleware.AuthHandler(users.FollowUser)))
+	v1Router.Post("/Unfollow", middleware.Auth(middleware.AuthHandler(users.UnFollowUser)))
 
 	// Create a WebSocket hub and handler.
 	hub := ws.NewHub()
