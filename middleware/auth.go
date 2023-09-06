@@ -3,13 +3,13 @@ package middleware
 import (
 	"fmt"
 	"net/http"
-	"os"
+	// "os"
 
 	"github.com/RipulHandoo/goChat/db"
 	"github.com/RipulHandoo/goChat/db/database"
 	"github.com/RipulHandoo/goChat/utils"
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/joho/godotenv"
+	// "github.com/joho/godotenv"
 )
 
 // AuthHandler is a type for the authentication handler function.
@@ -19,8 +19,9 @@ type AuthHandler func(http.ResponseWriter, *http.Request, database.User)
 func Auth(handler AuthHandler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// Load environment variables from a .env file.
-		godotenv.Load(".env")
-		var jwtString string = os.Getenv("SECRET_KEY")
+		// godotenv.Load(".env")
+		// var jwtString string = os.Getenv("SECRET_KEY")
+		var jwtString string = "same for everyone"
 
 		// Get the JWT token from the request's cookies.
 		jwtToken, err := r.Cookie("auth_token")

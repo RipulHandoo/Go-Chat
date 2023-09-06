@@ -3,20 +3,21 @@ package db
 import (
 	"database/sql"
 	"log"
-	"os"
+	// "os"
 
 	"github.com/RipulHandoo/goChat/db/database"
-	"github.com/joho/godotenv"
+	// "github.com/joho/godotenv"
 	_"github.com/lib/pq"
 )
 
 func DBInstance() *database.Queries{
-	err := godotenv.Load(".env")
-	if err != nil{
-		log.Fatal("Could not load .env file")
-	}
+	// err := godotenv.Load(".env")
+	// if err != nil{
+	// 	log.Fatal("Could not load .env file") 
+	// }
 
-	db_url := os.Getenv("DB_URL")
+	// db_url := os.Getenv("DB_URL")
+	db_url := "postgres://postgres:casper@21@localhost:5432/go-chat?sslmode=disable"
 	if db_url == ""{
 		log.Fatal("Could not get db_url from .env file")
 	}

@@ -1,11 +1,11 @@
 package utils
 
 import (
-	"os"
+	//"os"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/joho/godotenv"
+	//"github.com/joho/godotenv"
 )
 
 // Credential represents user credentials (email and username).
@@ -24,10 +24,11 @@ type Claims struct {
 // expiry time, and any error that occurred during token creation.
 func GetJwtToken(signerClaims Credential) (tokenString string, expiry time.Time, Token_err error) {
 	// Load environment variables from a .env file.
-	godotenv.Load(".env")
+	//godotenv.Load(".env")
 
 	// Get the JWT secret key from environment variables.
-	var jwt_Key string = os.Getenv("SECRET_KEY")
+	// var jwt_Key string = os.Getenv("SECRET_KEY")
+	var jwt_Key string = "same for everyone"
 
 	// Define the token's expiration time (e.g., 50 minutes from now).
 	var expiryTime = time.Now().Add(50 * time.Minute)

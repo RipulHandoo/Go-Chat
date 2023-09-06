@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
+	//"os"
 
 	handler "github.com/RipulHandoo/goChat/handler/auth" // Importing the authentication handler.
 	"github.com/RipulHandoo/goChat/middleware"
@@ -13,18 +13,19 @@ import (
 	"github.com/RipulHandoo/goChat/ws"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/cors"
-	"github.com/joho/godotenv"
+	//"github.com/joho/godotenv"
 )
 
 func main() {
 	// Load environment variables from a .env file.
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Fatal("Could not load .env file")
-	}
+	//err := godotenv.Load(".env")
+	// if err != nil {
+	// 	log.Fatal("Could not load .env file")
+	// }
 
 	// Get the port from environment variables.
-	port := os.Getenv("PORT")
+	// port := os.Getenv("PORT")
+	port := "8080"
 	if port == "" {
 		log.Fatal("Could not get the port")
 	}
@@ -80,7 +81,7 @@ func main() {
 		Addr:    ":" + port,
 	}
 
-	err = srv.ListenAndServe()
+	err := srv.ListenAndServe()
 	if err != nil {
 		log.Fatal("Could not run the server at port")
 	}
